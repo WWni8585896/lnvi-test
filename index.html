@@ -1,0 +1,37 @@
+<!doctype html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Test candidat LNVI</title>
+<style>body{margin:0;background:#080d16;display:flex;align-items:center;justify-content:center;height:100vh;font-family:system-ui,sans-serif}
+.ld{color:#9dafcd;text-align:center}.ld p{margin:8px 0;font-size:15px}.bar{width:220px;height:4px;background:#18243a;border-radius:2px;overflow:hidden;margin:12px auto 0}
+.bar div{height:100%;background:#1f4f8b;border-radius:2px;transition:width .2s}</style></head>
+<body>
+<div class="ld" id="lo"><p>Chargement du test...</p><div class="bar"><div id="pb" style="width:5%"></div></div></div>
+<script src="d0.js"></script>
+<script src="d1.js"></script>
+<script src="d2.js"></script>
+<script src="d3.js"></script>
+<script src="d4.js"></script>
+<script src="d5.js"></script>
+<script src="d6.js"></script>
+<script src="d7.js"></script>
+<script src="d8.js"></script>
+<script>
+(async()=>{
+document.getElementById("pb").style.width="60%";
+const d=window._d.join("");
+const b=atob(d);
+const a=new Uint8Array(b.length);
+for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);
+document.getElementById("pb").style.width="80%";
+const ds=new DecompressionStream("gzip");
+const w=ds.writable.getWriter();
+w.write(a);w.close();
+const rd=ds.readable.getReader();
+const c=[];
+while(true){const{done,value}=await rd.read();if(done)break;c.push(value);}
+const h=new TextDecoder().decode(await new Blob(c).arrayBuffer());
+document.getElementById("pb").style.width="100%";
+await new Promise(r=>setTimeout(r,200));
+document.open();document.write(h);document.close();
+})();
+</script></body></html>
